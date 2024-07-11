@@ -12,5 +12,10 @@
   "dependencies": {
     "nuxt": "^3.12.3",
     "vue": "latest"
+  },
+  "devDependencies": {
+    "@element-plus/nuxt": "^1.0.9",
+    "element-plus": "^2.7.6",
+    "sass": "^1.77.7"
   }
 }
