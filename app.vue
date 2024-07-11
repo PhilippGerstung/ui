@@ -10,9 +10,11 @@ const navigate = (to: string) => {
     <div class="top-bar">
       <el-button-group>
         <el-button round @click="navigateTo('/')">Home</el-button>
-        <el-button round @click="navigateTo('/stations')"
-          >Tankstellen</el-button
-        >
+        <el-button round @click="navigateTo('/stations')">Tankstellen
+        </el-button>
+        <el-button round @click="navigateTo('/map')">
+          Karte
+        </el-button>
         <el-button round @click="navigateTo('/about')">Über</el-button>
       </el-button-group>
     </div>
@@ -26,7 +28,7 @@ const navigate = (to: string) => {
   height: 100%;
 }
 
-.tob-bar {
+.top-bar {
   width: 100%;
   display: flex;
   flex-direction: row;
