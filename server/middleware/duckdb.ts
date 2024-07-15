@@ -5,6 +5,6 @@ const Db = new duckdb.Database(DB_FILE_PATH);
 
 export default defineEventHandler(async (event) => {
   event.context.duckdb = {
-    connection: Db.connect(),
+    connection: Db.connect()
   };
-})
+});

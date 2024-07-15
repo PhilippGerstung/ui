@@ -1,51 +1,51 @@
 // Helpers for calculating opening times of stations
 
-import type { IOtJson } from "~/types/stations";
+import type { IOtJson } from '~/types/stations';
 
 const moment = require('moment');
 const momentTimezone = require('moment-timezone');
 
 export function isStationOpen(date: Date, ot_json: IOtJson) {
-    // Parse the input date
-    const inputDate = moment(date);
-    const inputDay = inputDate.day();
-    const inputTime = inputDate.format("HH:mm");
-    
-    // Check for overrides
-    if (ot_json.overrides) {
-        for (let override of ot_json.overrides) {
-            const startOverride = moment(override.startp);
-            const endOverride = moment(override.endp);
+  // Parse the input date
+  const inputDate = moment(date);
+  const inputDay = inputDate.day();
+  const inputTime = inputDate.format('HH:mm');
 
-            if (inputDate.isBetween(startOverride, endOverride, null, '[]')) {
-                return !override.is_close;
-            }
+  // Check for overrides
+  if (ot_json.overrides) {
+    for (let override of ot_json.overrides) {
+      const startOverride = moment(override.startp);
+      const endOverride = moment(override.endp);
+
+      if (inputDate.isBetween(startOverride, endOverride, null, '[]')) {
+        return !override.is_close;
+      }
+    }
+  }
+
+  // If there are no openingTimes, the station is always open
+  if (!ot_json.openingTimes || ot_json.openingTimes.length === 0) {
+    return true;
+  }
+
+  // Check the regular opening times
+  for (let openingTime of ot_json.openingTimes) {
+    const applicableDays = openingTime.applicable_days;
+
+    // Check if the input day matches the applicable days
+    if (applicableDays & (1 << inputDay)) {
+      for (let period of openingTime.periods) {
+        const startp = period.startp;
+        const endp = period.endp;
+
+        if (inputTime >= startp && inputTime <= endp) {
+          return true;
         }
+      }
     }
+  }
 
-    // If there are no openingTimes, the station is always open
-    if (!ot_json.openingTimes || ot_json.openingTimes.length === 0) {
-        return true;
-    }
-
-    // Check the regular opening times
-    for (let openingTime of ot_json.openingTimes) {
-        const applicableDays = openingTime.applicable_days;
-
-        // Check if the input day matches the applicable days
-        if (applicableDays & (1 << inputDay)) {
-            for (let period of openingTime.periods) {
-                const startp = period.startp;
-                const endp = period.endp;
-
-                if (inputTime >= startp && inputTime <= endp) {
-                    return true;
-                }
-            }
-        }
-    }
-
-    return false;
+  return false;
 }
 
 // Test example
