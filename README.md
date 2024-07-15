@@ -2,6 +2,8 @@
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
+Use Node version 20.x.x in order to install duckdb on windows.
+
 ## Setup
 
 Make sure to install the dependencies:
