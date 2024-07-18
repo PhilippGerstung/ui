@@ -4,7 +4,7 @@ import { DB_FILE_PATH } from '~/config/paths';
 const Db = new duckdb.Database(DB_FILE_PATH);
 
 export default defineEventHandler(async (event) => {
-  event.context.duckdb = {
-    connection: Db.connect()
-  };
+  console.log("Adding duckdb middleware")
+  event.context.duckdb = Db;
+  console.log("DuckDB addded", event.context.duckdb)
 });
