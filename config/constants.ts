@@ -1,0 +1,1 @@
+export const REDIS_CACHE_PRICES_EXPIRATION_SECS = 10 * 60;

@@ -26,7 +26,10 @@ const colDef: ColDef<IStation>[] = [
 ];
 
 const loadStations = async () => {
-  const response = await useFetch('/api/stations');
+  const response = await useFetch('/api/stations', {server: false});
+  if(response.error) {
+    console.error(response.error);
+  }
   if (response.data.value != null) stations.value = response.data.value;
   else stations.value = [];
 };

@@ -19,6 +19,7 @@
     "moment": "^2.30.1",
     "moment-timezone": "^0.5.45",
     "nuxt": "^3.12.3",
+    "redis": "^4.6.15",
     "vue": "latest",
     "zod": "^3.23.8"
   },
