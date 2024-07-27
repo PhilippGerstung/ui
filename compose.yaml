@@ -1,5 +1,12 @@
-version: '3.8'
 services:
+  nginx:
+    build:
+      context: nginx
+    ports:
+      - '80:80'
+    networks:
+      - my_network
+  
   cache:
     image: redis:6.2-alpine
     restart: always
@@ -8,6 +15,22 @@ services:
     command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
     volumes: 
       - cache:/data
+    networks:
+      - my_network
+
+  nuxt:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    networks:
+      - my_network
+
 volumes:
   cache:
     driver: local
+
+networks:
+  my_network:
+    driver: bridge
