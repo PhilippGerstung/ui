@@ -1,7 +1,6 @@
 FROM node:20.15.1-slim
-ARG WORKINGDIR=/app
-WORKDIR $WORKINGDIR
-ADD package.json $WORKINGDIR
+
+COPY --chown=node:node package.json .
 
 RUN ls -l
 
@@ -10,8 +9,10 @@ RUN npm install -g npm@latest
 RUN rm -rf node_modules
 RUN npm i
 
+
 # Build the app
-ADD . $WORKINGDIR
+RUN chmod -R 777 /node_modules
+COPY --chown=node:node . .
 RUN npm run build
 
 # Start the app

@@ -20,10 +20,20 @@ services:
 
   nuxt:
     build:
-      context: .
+      context: nuxt
       dockerfile: Dockerfile
     ports:
       - '3000:3000'
+    networks:
+      - my_network
+
+
+  fastapi:
+    build:
+      context: fastapi
+      dockerfile: Dockerfile
+    ports:
+      - '8000:8000'
     networks:
       - my_network
 

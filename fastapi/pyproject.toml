@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "gpv-fastapi"
+version = "0.1.0"
+description = ""
+authors = ["Philipp Gerstung <mail@philippgerstung.de>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+loguru = "^0.7.2"
+fastapi = "^0.111.1"
+duckdb = "^1.0.0"
+pytz = "^2024.1"
+pytest = "^8.3.2"
+pytest-xdist = "^3.6.1"
+hypothesis = "^6.108.5"
+redis = "^5.0.8"
+python-dotenv = "^1.0.1"
+cachetools = "^5.4.0"
+fakeredis = "^2.23.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
