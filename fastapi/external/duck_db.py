@@ -11,8 +11,10 @@ def create_db_if_not_exist():
         temp_db.close()
         duckdb.close()
 
-    db_readonly = duckdb.connect(database=DUCK_DB_PATH.as_posix(), read_only=True)
-    return db_readonly
+    productive_db = duckdb.connect(database=DUCK_DB_PATH.as_posix(), read_only=False)
+    productive_db.execute("CREATE TABLE IF NOT EXISTS schedules (uuid VARCHAR NOT NULL UNIQUE, fun VARCHAR, started TIMESTAMP, finished TIMESTAMP, success BOOLEAN NOT NULL,  message VARCHAR, stacktrace VARCHAR)")
+
+    return productive_db
 
 
 db = create_db_if_not_exist()
