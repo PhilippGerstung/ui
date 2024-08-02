@@ -1,8 +1,11 @@
 import json
 from functools import wraps
+
 from loguru import logger
-from external.redis import redis_db
 from pydantic import BaseModel
+
+from external.redis import redis_db
+
 
 def redis_cache(ttl: int, cachekey: callable):
     def decorator(func):
@@ -24,7 +27,7 @@ def redis_cache(ttl: int, cachekey: callable):
             redis_db.set(key, serialized)
             redis_db.expire(key, ttl)
             return result
+
         return wrapper
+
     return decorator
-
-

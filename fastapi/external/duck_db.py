@@ -1,5 +1,5 @@
 import duckdb
-import pathlib as pl
+
 from external.environ import DUCK_DB_PATH
 
 
@@ -16,7 +16,3 @@ def create_db_if_not_exist():
 
 
 db = create_db_if_not_exist()
-
-
-
-

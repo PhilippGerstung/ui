@@ -1,6 +1,5 @@
-import os
-from loguru import logger
 import httpx
+from loguru import logger
 
 from external.environ import TK_API_KEY
 from helpers.cacher import redis_cache
@@ -11,7 +10,8 @@ from models.prices import LocationPrices
 async def get_prices(latitude: float, longitude: float, radius: float) -> LocationPrices:
     async with httpx.AsyncClient() as client:
         res = await client.get(
-            f"https://creativecommons.tankerkoenig.de/json/list.php?lat={latitude}&lng={longitude}&rad={radius}&sort=dist&type=all&apikey={TK_API_KEY}")
+            f"https://creativecommons.tankerkoenig.de/json/list.php?lat={latitude}&lng={longitude}&rad={radius}&sort=dist&type=all&apikey={TK_API_KEY}"
+        )
 
     if res.status_code != 200:
         raise logger.error(f"Failed to fetch prices: {res.text}")

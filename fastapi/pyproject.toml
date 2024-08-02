@@ -11,13 +11,20 @@ loguru = "^0.7.2"
 fastapi = "^0.111.1"
 duckdb = "^1.0.0"
 pytz = "^2024.1"
-pytest = "^8.3.2"
-pytest-xdist = "^3.6.1"
-hypothesis = "^6.108.5"
 redis = "^5.0.8"
 python-dotenv = "^1.0.1"
 cachetools = "^5.4.0"
+
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.5.5"
 fakeredis = "^2.23.3"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.2"
+pytest-xdist = "^3.6.1"
+hypothesis = "^6.108.5"
 
 
 [build-system]
@@ -58,3 +65,28 @@ python_files = ["test_*.py", "*_test.py"]
 
 # Name glob-patterns determining which functions and methods are considered tests.
 python_functions = ["test_*"]
+
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "N",  # PEP8 naming convetions
+
+]
+ignore = [
+    "C901",  # too complex
+    "W191",  # indentation contains tabs
+    "D401",  # imperative mood
+    "D"  # pydocstyle
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"

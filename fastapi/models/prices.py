@@ -1,11 +1,13 @@
 from enum import Enum
-from pydantic import BaseModel
 from typing import List, Optional
 
+from pydantic import BaseModel
+
+
 class GasType(str, Enum):
-    diesel = 'diesel'
-    e5 = 'e5'
-    e10 = 'e10'
+    diesel = "diesel"
+    e5 = "e5"
+    e10 = "e10"
 
 
 class RecommendedWeekday(BaseModel):
@@ -26,9 +28,9 @@ class Station(BaseModel):
     diesel: Optional[float]
     e5: Optional[float]
     e10: Optional[float]
-    isOpen: bool
-    houseNumber: str
-    postCode: int
+    isOpen: bool  # noqa: N815
+    houseNumber: str  # noqa: N815
+    postCode: int  # noqa: N815
 
 
 class LocationPrices(BaseModel):
