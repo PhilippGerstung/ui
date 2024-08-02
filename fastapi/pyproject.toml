@@ -23,3 +23,38 @@ fakeredis = "^2.23.3"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.pytest.ini_options]
+# Options for runtime testing tool 'pytest', https://docs.pytest.org
+# Details at https://docs.pytest.org/en/6.2.x/reference.html#configuration-options
+
+# Define command-line arguments that shall be passed to pytest by default.
+# Overview at https://docs.pytest.org/en/6.2.x/reference.html#command-line-flags
+# Lex-sort lines descending to reduce diffs.
+addopts = [
+    "--color=auto", # color terminal output (yes/no/auto).
+    "--doctest-glob='*.md'", # doctest: run for files matching pattern
+    "--doctest-glob='*.rst'", # doctest: run for files matching pattern
+    "--doctest-modules", # doctest: run for all Python module docstrings
+    "--durations=10", # show N slowest setup/test durations (N=0 for all).
+    "--tb=auto", # traceback print mode
+    "-ra", # show extra test summary info as specified by chars
+]
+
+# List of dirs to be searched for tests by default.
+# Note: the doctest plugin also searches for tests in various documentation sources.
+# Lex-sort lines descending to reduce diffs.
+testpaths = [
+    "data",
+    "docs",
+    "scripts",
+    "sources",
+    "tests"
+]
+
+# Glob-style file patterns determining which Python files to consider as test modules.
+python_files = ["test_*.py", "*_test.py"]
+
+# Name glob-patterns determining which functions and methods are considered tests.
+python_functions = ["test_*"]

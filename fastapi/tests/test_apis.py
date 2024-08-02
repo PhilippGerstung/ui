@@ -7,9 +7,7 @@ from app import app
 client = TestClient(app)
 
 
-@given(lat = st.floats(), lon = st.floats(), distance = st.floats())
-def test_geo_square(lat):
+def test_geo_square():
     res = client.get(f"/recommendations/weekdays")
 
     assert res.status_code == 200
-    assert res.json() == {"message": s * s}

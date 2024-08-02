@@ -1,4 +1,4 @@
-from hypothesis import given, strategies as st
+from hypothesis import settings, given, strategies as st
 from helpers.geo import calculate_square
 
 
@@ -7,6 +7,7 @@ from helpers.geo import calculate_square
     lon=st.floats(min_value=-180, max_value=180),
     distance=st.floats(min_value=1e-5)
 )
+@settings(max_examples=150)
 def test_geo_square(lat, lon, distance):
     print(f"Testing with inputs lat={lat}, lon={lon}, distance={distance}")
     res = calculate_square(lat, lon, distance)

@@ -5,7 +5,7 @@ import datetime
 from fastapi import FastAPI
 import uvicorn
 
-from db import db
+from external.duck_db import db
 from external import tankerkoenig
 from helpers.geo import calculate_square
 from models.prices import GasType, RecommendedWeekday, LocationPrices
