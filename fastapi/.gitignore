@@ -1,3 +1,4 @@
 tests/.hypothesis
 *.env
 !template.env
+data/productive.db
