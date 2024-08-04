@@ -17,11 +17,29 @@
                 </button>
             </div>
         </div>
-
-        {{ userSearch }}
-        {{ geoLocation }}
-        {{ geoLocationAvailable }}
-        {{ currentPrices }}
+        <div v-if="currentPrices">
+            <div class="card" v-for="item in currentPrices.stations" :key="item.id">
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-left">
+                            <figure class="image is-48x48">
+                                <img src="https://cdn-icons-png.flaticon.com/512/481/481233.png"
+                                    alt="Placeholder image" />
+                            </figure>
+                        </div>
+                        <div class="media-content" style="overflow-y: clip;">
+                            <p class="title is-5">
+                                {{ item.name }}
+                            </p>
+                            <p class="subtitle">{{ item.street }} {{ item.houseNumber }}</p>
+                        </div>
+                        <div class="media-right">
+                            {{ item.e5 }} €
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
 </template>

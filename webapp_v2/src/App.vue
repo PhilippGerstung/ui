@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+
+const showNavbarMenu = ref(false);
+
 </script>
 
 <template>
@@ -16,6 +19,49 @@ import HelloWorld from './components/HelloWorld.vue'
             fill="#00D1B2" />
         </svg>
       </router-link>
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu"
+        @click="showNavbarMenu = !showNavbarMenu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div id="navbarMenu" class="navbar-menu" :class="showNavbarMenu ? 'is-active' : ''">
+      <div class="navbar-start">
+        <RouterLink to="/" class="navbar-item">
+          Home
+        </RouterLink>
+
+        <RouterLink to="/impressum" class="navbar-item">
+          Impressum
+        </RouterLink>
+        <hr class="navbar-divider">
+
+        <dropdown label="Sorte auswählen" :options="['diesel', 'e5', 'e10']"></dropdown>
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">
+            More
+          </a>
+
+          <div class="navbar-dropdown">
+            <a class="navbar-item">
+              About
+            </a>
+            <a class="navbar-item is-selected">
+              Jobs
+            </a>
+            <a class="navbar-item">
+              Contact
+            </a>
+            <hr class="navbar-divider">
+            <a class="navbar-item">
+              Report an issue
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </nav>
   <RouterView />
