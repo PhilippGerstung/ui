@@ -12,6 +12,7 @@ from fastapi import FastAPI  # noqa: E402
 
 from loguru import logger  # noqa: E402
 import schedules  # noqa: E402
+from fastapi.middleware.cors import CORSMiddleware # noqa: E402
 
 
 @asynccontextmanager
@@ -30,6 +31,18 @@ app = FastAPI(lifespan=lifespan)
 app.include_router(prices.router)
 app.include_router(recommendations.router)
 
+
+origins = [
+    "*"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 async def hello_world():
