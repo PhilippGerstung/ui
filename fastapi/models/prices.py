@@ -39,3 +39,10 @@ class LocationPrices(BaseModel):
     data: str
     status: str
     stations: List[Station]
+
+
+class PriceComparisonResult(BaseModel):
+    reference_price: float
+    minimum_last_week: float
+    maximum_last_week: float
+    average_last_week: float

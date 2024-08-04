@@ -11,9 +11,13 @@ def load_stations():
     if not stations_file_path.exists():
         raise FileNotFoundError(f"{stations_file_path} does not exist. Exiting.")
     db.execute(f"""
-        BEGIN TRANSACTION
+        BEGIN TRANSACTION;
         DROP TABLE IF EXISTS stations;
-        CREATE TABLE stations AS FROM '{stations_file_path.as_posix()}'
+        CREATE TABLE stations AS FROM '{stations_file_path.as_posix()}';
         COMMIT;
     """)
     logger.success("Stations loaded successfully")
+
+
+if __name__ == "__main__":
+    load_stations()
