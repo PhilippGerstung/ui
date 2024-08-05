@@ -1,0 +1,7 @@
+.git
+.nuxt
+.output
+.vscode
+.venv
+.idea
+__pycache__

@@ -1,0 +1,94 @@
+[tool.poetry]
+name = "gpv-fastapi"
+version = "0.1.0"
+description = ""
+authors = ["Philipp Gerstung <mail@philippgerstung.de>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+loguru = "^0.7.2"
+fastapi = "^0.111.1"
+duckdb = "^1.0.0"
+pytz = "^2024.1"
+redis = "^5.0.8"
+python-dotenv = "^1.0.1"
+cachetools = "^5.4.0"
+apscheduler = "^3.10.4"
+gitpython = "^3.1.43"
+
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.5.5"
+fakeredis = "^2.23.3"
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.3.2"
+pytest-xdist = "^3.6.1"
+hypothesis = "^6.108.5"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.pytest.ini_options]
+# Options for runtime testing tool 'pytest', https://docs.pytest.org
+# Details at https://docs.pytest.org/en/6.2.x/reference.html#configuration-options
+
+# Define command-line arguments that shall be passed to pytest by default.
+# Overview at https://docs.pytest.org/en/6.2.x/reference.html#command-line-flags
+# Lex-sort lines descending to reduce diffs.
+addopts = [
+    "--color=auto", # color terminal output (yes/no/auto).
+    "--doctest-glob='*.md'", # doctest: run for files matching pattern
+    "--doctest-glob='*.rst'", # doctest: run for files matching pattern
+    "--doctest-modules", # doctest: run for all Python module docstrings
+    "--durations=10", # show N slowest setup/test durations (N=0 for all).
+    "--tb=auto", # traceback print mode
+    "-ra", # show extra test summary info as specified by chars
+]
+
+# List of dirs to be searched for tests by default.
+# Note: the doctest plugin also searches for tests in various documentation sources.
+# Lex-sort lines descending to reduce diffs.
+testpaths = [
+    "data",
+    "docs",
+    "scripts",
+    "sources",
+    "tests"
+]
+
+# Glob-style file patterns determining which Python files to consider as test modules.
+python_files = ["test_*.py", "*_test.py"]
+
+# Name glob-patterns determining which functions and methods are considered tests.
+python_functions = ["test_*"]
+
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "N",  # PEP8 naming convetions
+
+]
+ignore = [
+    "C901",  # too complex
+    "W191",  # indentation contains tabs
+    "D401",  # imperative mood
+    "D"  # pydocstyle
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"

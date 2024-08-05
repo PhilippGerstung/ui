@@ -1,0 +1,5 @@
+tests/.hypothesis
+*.env
+!template.env
+data/productive.db
+**/__pycache__/
