@@ -3,3 +3,7 @@
 .output
 .vscode
 node_modules
+
+**/.venv
+**/node_modules
+*.db

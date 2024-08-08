@@ -5,3 +5,7 @@
 .venv
 .idea
 __pycache__
+
+**/.venv
+**/node_modules
+*.db
