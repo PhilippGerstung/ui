@@ -42,7 +42,6 @@ services:
       - my_network
     volumes:
       - "${TK_GIT_ROOT_PATH}:/data/tk_git_root"
-      - "${DUCK_DB_FILE_PATH}:/data/duck_db.db"
 
 volumes:
   cache:
