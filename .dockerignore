@@ -1,9 +1,11 @@
-.git
-.nuxt
-.output
-.vscode
-node_modules
-
+**/.git
+**/.nuxt
+**/.output
+**/.vscode
+**/.idea
 **/.venv
 **/node_modules
 *.db
+**/__pycache__
+**/.pytest_cache
+**/.hypothesis

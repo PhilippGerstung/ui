@@ -8,7 +8,7 @@ services:
     networks:
       - my_network
 
-  cache:
+  redis:
     image: redis:6.2-alpine
     restart: unless-stopped
     ports:
@@ -28,7 +28,9 @@ services:
       - USE_FAKE_REDIS=False
       - TK_API_KEY=${TK_API_KEY}
       - MAX_HISTORIC_DAYS=${MAX_HISTORIC_DAYS}
-      - REDIS_URL=redis://localhost:6379
+      - REDIS_URL=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
     ports:
       - "8000:8000"
     networks:
@@ -42,4 +44,3 @@ volumes:
 
 networks:
   my_network:
-    driver: bridge
