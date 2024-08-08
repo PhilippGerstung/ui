@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 
 import dotenv
 
-from routers import recommendations, prices
+from routers import recommendations, prices, debug
 from services.scheduler import scheduler
 
 dotenv.load_dotenv()
@@ -30,6 +30,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 app.include_router(prices.router)
 app.include_router(recommendations.router)
+app.include_router(debug.router)
 
 
 origins = [

@@ -3,17 +3,17 @@ services:
     build:
       context: nginx
     ports:
-      - '80:80'
+      - "80:80"
     networks:
       - my_network
-  
+
   cache:
     image: redis:6.2-alpine
     restart: always
     ports:
-      - '6379:6379'
+      - "6379:6379"
     command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
-    volumes: 
+    volumes:
       - cache:/data
     networks:
       - my_network
@@ -23,10 +23,9 @@ services:
       context: nuxt
       dockerfile: Dockerfile
     ports:
-      - '3000:3000'
+      - "3000:3000"
     networks:
       - my_network
-
 
   fastapi:
     build:
@@ -34,10 +33,16 @@ services:
       dockerfile: Dockerfile
     environment:
       - USE_FAKE_REDIS=False
+      - TK_API_KEY=${TK_API_KEY}
+      - MAX_HISTORIC_DAYS=${MAX_HISTORIC_DAYS}
+      - REDIS_URL=redis://localhost:6379
     ports:
-      - '8000:8000'
+      - "8000:8000"
     networks:
       - my_network
+    volumes:
+      - "${TK_GIT_ROOT_PATH}:/data/tk_git_root"
+      - "${DUCK_DB_FILE_PATH}:/data/duck_db.db"
 
 volumes:
   cache:
