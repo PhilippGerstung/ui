@@ -32,6 +32,8 @@ services:
     build:
       context: fastapi
       dockerfile: Dockerfile
+    environment:
+      - USE_FAKE_REDIS=False
     ports:
       - '8000:8000'
     networks:

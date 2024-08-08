@@ -5,7 +5,7 @@ from external.environ import DUCK_DB_PATH
 
 def create_db_if_not_exist():
     if not DUCK_DB_PATH.exists():
-
+        DUCK_DB_PATH.parent.mkdir(exists_ok=True, parents=True)
         temp_db = duckdb.connect(database=DUCK_DB_PATH.as_posix(), read_only=False)
         temp_db.execute("CREATE TABLE CREATION_INFO (created_at TIMESTAMP)")
         temp_db.execute("INSERT INTO CREATION_INFO VALUES (NOW())")
