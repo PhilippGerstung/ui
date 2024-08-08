@@ -2,6 +2,7 @@ services:
   nginx:
     build:
       context: nginx
+    restart: unless-stopped
     ports:
       - "80:80"
     networks:
@@ -9,7 +10,7 @@ services:
 
   cache:
     image: redis:6.2-alpine
-    restart: always
+    restart: unless-stopped
     ports:
       - "6379:6379"
     command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
@@ -31,6 +32,7 @@ services:
     build:
       context: fastapi
       dockerfile: Dockerfile
+    restart: unless-stopped
     environment:
       - USE_FAKE_REDIS=False
       - TK_API_KEY=${TK_API_KEY}
