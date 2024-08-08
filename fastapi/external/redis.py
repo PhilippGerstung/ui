@@ -1,10 +1,10 @@
-import fakeredis
 import redis
 from loguru import logger
 
 from external.environ import USE_FAKE_REDIS
 
 if USE_FAKE_REDIS:
+    import fakeredis
     logger.info("Using fake redis")
     redis_db = fakeredis.FakeRedis()
 else:
