@@ -38,3 +38,7 @@ def schedule_logger(func):
         return result
 
     return wrapper
+
+
+def read_logs():
+    return db.execute("""SELECT * FROM schedules""").fetchall()

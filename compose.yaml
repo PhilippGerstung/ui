@@ -2,40 +2,54 @@ services:
   nginx:
     build:
       context: nginx
+    restart: unless-stopped
     ports:
-      - '80:80'
+      - "80:80"
+      - "443:443"
     networks:
       - my_network
-  
-  cache:
+    volumes:
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
+
+
+
+  redis:
     image: redis:6.2-alpine
-    restart: always
+    restart: unless-stopped
     ports:
-      - '6379:6379'
+      - "6379:6379"
     command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
-    volumes: 
+    volumes:
       - cache:/data
     networks:
       - my_network
-
-  nuxt:
-    build:
-      context: nuxt
-      dockerfile: Dockerfile
-    ports:
-      - '3000:3000'
-    networks:
-      - my_network
-
 
   fastapi:
     build:
       context: fastapi
       dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      - USE_FAKE_REDIS=False
+      - TK_API_KEY=${TK_API_KEY}
+      - MAX_HISTORIC_DAYS=${MAX_HISTORIC_DAYS}
+      - REDIS_URL=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81
     ports:
-      - '8000:8000'
+      - "8000:8000"
     networks:
       - my_network
+    volumes:
+      - "${TK_GIT_ROOT_PATH}:/data/tk_git_root"
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
+
 
 volumes:
   cache:
@@ -43,4 +57,3 @@ volumes:
 
 networks:
   my_network:
-    driver: bridge
