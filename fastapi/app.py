@@ -28,7 +28,7 @@ async def lifespan(app: FastAPI):
     scheduler.shutdown()
 
 
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(lifespan=lifespan, root_path="/gpv/api")
 app.include_router(prices.router)
 app.include_router(recommendations.router)
 app.include_router(debug.router)
