@@ -2,7 +2,6 @@ from contextlib import asynccontextmanager
 
 import dotenv
 
-from routers import recommendations, prices, debug
 from services.scheduler import scheduler
 
 dotenv.load_dotenv()
@@ -13,6 +12,8 @@ from fastapi import FastAPI  # noqa: E402
 from loguru import logger  # noqa: E402
 import schedules  # noqa: E402
 from fastapi.middleware.cors import CORSMiddleware # noqa: E402
+
+from routers import prices, recommendations, debug, schedules as schedules_router
 
 
 @asynccontextmanager
@@ -31,6 +32,7 @@ app = FastAPI(lifespan=lifespan)
 app.include_router(prices.router)
 app.include_router(recommendations.router)
 app.include_router(debug.router)
+app.include_router(schedules_router.router)
 
 
 origins = [
