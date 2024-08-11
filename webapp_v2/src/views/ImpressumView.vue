@@ -11,6 +11,16 @@
                 <p>Verantwortlich nach § 55 Abs.2 RStV<br />Philipp Gerstung<br />Lutherstr. 7<br />67059 Ludwigshafen
                     am Rhein</p>
             </div>
+            <div class="content">
+                <p>App-Version: {{ appVersion }}</p>
+            </div>
         </div>
     </div>
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue';
+
+
+const appVersion = ref(APP_VERSION)
+</script>
