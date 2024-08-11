@@ -6,3 +6,7 @@
   flex-direction: column;
   margin: 0 auto;
 }
+
+a {
+  color: rgb(0, 209, 178);
+}
