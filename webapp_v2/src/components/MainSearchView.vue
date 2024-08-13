@@ -58,14 +58,14 @@
 <script setup lang="ts">
 import { getCurrentPricesForLocation } from '@/api/currentPrices';
 import type { GasType, LocationPrices, Station } from '@/types/currentPrices';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { kmDistanceBetweenCoordinates } from "@/helper/geoHelper"
+import { selectedGasType } from '@/stores/userSettings';
 
 const userSearch = ref("");
 const geoLocationAvailable = ref(true);
 const geoLocation = ref<{ latitude: number; longitude: number } | null>(null);
 const currentPrices = ref<LocationPrices | null>(null);
-const selectedGasType = ref<GasType>("e5");
 
 const currentPricesSorted = computed<Station[] | null>(() => {
     if (currentPrices.value == null) {
@@ -104,4 +104,8 @@ const getCurrentPricesData = async () => {
 }
 
 const distance = kmDistanceBetweenCoordinates;
+
+onMounted(() => {
+    tryGetGeoLocation();
+});
 </script>

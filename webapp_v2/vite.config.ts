@@ -10,6 +10,9 @@ export default defineConfig({
     vue(),
     vueDevTools(),
   ],
+  server: {
+    port: 3001
+  },
   define: {
     APP_VERSION: JSON.stringify(process.env.npm_package_version),
   },
