@@ -101,9 +101,7 @@ const currentPricesSorted = computed<Station[] | null>(() => {
         return null;
     }
 
-    let sorted = [...currentPrices.value.stations].sort((a, b) => {
-        return a[selectedGasType.value] - b[selectedGasType.value];
-    });
+    let sorted = [...currentPrices.value.stations];
 
     for (const filter of [...sortBy.value].reverse()) {
         if (filter === "price") {
