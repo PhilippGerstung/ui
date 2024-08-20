@@ -13,7 +13,7 @@ from loguru import logger  # noqa: E402
 import schedules  # noqa: E402
 from fastapi.middleware.cors import CORSMiddleware # noqa: E402
 
-from routers import prices, recommendations, debug, schedules as schedules_router
+from routers import prices, recommendations, debug, stations, schedules as schedules_router
 
 
 @asynccontextmanager
@@ -33,6 +33,7 @@ app.include_router(prices.router)
 app.include_router(recommendations.router)
 app.include_router(debug.router)
 app.include_router(schedules_router.router)
+app.include_router(stations.router)
 
 
 origins = [
@@ -53,4 +54,4 @@ async def hello_world():
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000, reload=False)
