@@ -9,7 +9,9 @@
                         <i class="fas fa-map-marker-alt"></i>
                     </span>
                 </button>
-                <input class="input" type="text" placeholder="PLZ oder Stadt" v-model="userSearch" />
+                <!-- <input class="input" type="text" placeholder="PLZ oder Stadt" v-model="userSearch" /> -->
+                <gpvAutocomplete v-model="userSearch" label="PLZ oder Stadt"
+                    :options="[...cityOptions.map(c => c.city)]" />
                 <button class="button is-primary">
                     <span class="icon is-small">
                         <i class="fas fa-paper-plane"></i>
@@ -17,7 +19,6 @@
                 </button>
             </div>
             <div class="is-flex is-flex-direction-row is-justify-content-flex-end">
-
                 <button class="button mr-2" :class="sortBy.includes(filter.id) ? 'is-primary' : ''"
                     @click="addRemoveFilter(filter.id)" v-for="filter in filters" :key="filter.id">
                     <span class=" icon is-small">
@@ -71,9 +72,11 @@
 <script setup lang="ts">
 import { getCurrentPricesForLocation } from '@/api/currentPrices';
 import type { GasType, LocationPrices, Station } from '@/types/currentPrices';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { kmDistanceBetweenCoordinates } from "@/helper/geoHelper"
 import { selectedGasType } from '@/stores/userSettings';
+import type { City } from '@/types/stations';
+import { getCities } from '@/api/stations';
 
 
 type PossibleFilters = "price" | "distance";
@@ -95,6 +98,7 @@ const geoLocationAvailable = ref(true);
 const geoLocation = ref<{ latitude: number; longitude: number } | null>(null);
 const currentPrices = ref<LocationPrices | null>(null);
 const sortBy = ref<Array<PossibleFilters>>(["price"]);
+const cityOptions = ref<City[]>([]);
 
 const currentPricesSorted = computed<Station[] | null>(() => {
     if (currentPrices.value == null) {
@@ -120,6 +124,12 @@ const currentPricesSorted = computed<Station[] | null>(() => {
     }
 
     return sorted;
+});
+
+watch(userSearch, async () => {
+    if (userSearch.value.length > 2) {
+        cityOptions.value = await getCities(userSearch.value);
+    }
 });
 
 

@@ -40,7 +40,8 @@ const sgt = selectedGasType;
         </RouterLink>
         <hr class="navbar-divider">
 
-        <dropdown v-model="sgt" label="Sorte auswählen" :options="['diesel', 'e5', 'e10']"></dropdown>
+        <gpvDropdown v-model="sgt" label="Sorte auswählen" :options="['diesel', 'e5', 'e10']">
+        </gpvDropdown>
       </div>
     </div>
   </nav>
