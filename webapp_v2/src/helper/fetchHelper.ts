@@ -20,6 +20,7 @@ export async function get<T extends ZodSchema>(url: string, schema: T): Promise<
             }
         }).catch((error) => {
             console.error(`Failed to fetch ${url}`, error);
+            console.error(error);
             reject(error);
         });
     });

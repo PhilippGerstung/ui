@@ -11,7 +11,7 @@
                 </button>
                 <!-- <input class="input" type="text" placeholder="PLZ oder Stadt" v-model="userSearch" /> -->
                 <gpvAutocomplete v-model="userSearch" label="PLZ oder Stadt"
-                    :options="[...cityOptions.map(c => c.city)]" />
+                    :options="[...cityOptions.map(c => c.label)]" :loading="loadingCities" />
                 <button class="button is-primary">
                     <span class="icon is-small">
                         <i class="fas fa-paper-plane"></i>
@@ -30,6 +30,9 @@
                     </span>
                 </button>
             </div>
+        </div>
+        <div v-if="loadingPrices" class="hero-body">
+            <progress class="progress is-small is-primary" max="100">15%</progress>
         </div>
         <div v-if="currentPrices" class="hero-body">
             <div class="card" v-for="item in currentPricesSorted" :key="item.id">
@@ -77,6 +80,7 @@ import { kmDistanceBetweenCoordinates } from "@/helper/geoHelper"
 import { selectedGasType } from '@/stores/userSettings';
 import type { City } from '@/types/stations';
 import { getCities } from '@/api/stations';
+import { capitalizeFirstLetter } from '@/helper/stringHelper';
 
 
 type PossibleFilters = "price" | "distance";
@@ -98,7 +102,9 @@ const geoLocationAvailable = ref(true);
 const geoLocation = ref<{ latitude: number; longitude: number } | null>(null);
 const currentPrices = ref<LocationPrices | null>(null);
 const sortBy = ref<Array<PossibleFilters>>(["price"]);
-const cityOptions = ref<City[]>([]);
+const cityOptions = ref<{ label: string, raw: City }[]>([]);
+const loadingCities = ref(false);
+const loadingPrices = ref(false);
 
 const currentPricesSorted = computed<Station[] | null>(() => {
     if (currentPrices.value == null) {
@@ -127,8 +133,32 @@ const currentPricesSorted = computed<Station[] | null>(() => {
 });
 
 watch(userSearch, async () => {
+    // Either the user typed something to search or selected a city from the dropdown.
+
+    // First try to find a match
+    const cityMatch = cityOptions.value.find(c => c.label === userSearch.value);
+    if (cityMatch) {
+        geoLocation.value = {
+            latitude: cityMatch.raw.lat,
+            longitude: cityMatch.raw.lon
+        };
+        getCurrentPricesData();
+        return;
+    }
+
+    // No match found, try to get cities from API
+
     if (userSearch.value.length > 2) {
-        cityOptions.value = await getCities(userSearch.value);
+        loadingCities.value = true;
+        try {
+            const cities = await getCities(userSearch.value);
+            cityOptions.value = cities.map(c => ({ label: `${c.post_code} - ${capitalizeFirstLetter(c.city)}`, raw: c }));
+        } finally {
+            loadingCities.value = false;
+        }
+    }
+    else {
+        cityOptions.value = [];
     }
 });
 
@@ -163,7 +193,13 @@ const getCurrentPricesData = async () => {
     }
 
     // Fetch data from API
-    currentPrices.value = await getCurrentPricesForLocation(geoLocation.value.latitude, geoLocation.value.longitude);
+    loadingPrices.value = true;
+    try {
+        currentPrices.value = null;
+        currentPrices.value = await getCurrentPricesForLocation(geoLocation.value.latitude, geoLocation.value.longitude);
+    } finally {
+        loadingPrices.value = false;
+    }
 }
 
 const distance = kmDistanceBetweenCoordinates;
